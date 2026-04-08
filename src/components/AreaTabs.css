@@ -1,0 +1,93 @@
+.area-tabs {
+  padding: 0 16px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.area-tabs-list {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.area-tab {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px 8px 0 0;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.area-tab:hover {
+  background: var(--bg-input);
+}
+
+.area-tab.active {
+  background: var(--bg-input);
+  color: var(--accent-gold);
+  border-bottom-color: var(--bg-input);
+}
+
+.area-tab-name {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.area-tab-input {
+  background: var(--bg-page);
+  border: 1px solid var(--accent-gold);
+  border-radius: 4px;
+  color: var(--text-primary);
+  padding: 2px 6px;
+  font-size: 0.85rem;
+  width: 100px;
+}
+
+.area-tab-edit,
+.area-tab-delete {
+  background: none;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  padding: 2px;
+  line-height: 1;
+  opacity: 0.5;
+  transition: opacity 0.15s;
+}
+
+.area-tab-edit:hover,
+.area-tab-delete:hover {
+  opacity: 1;
+}
+
+.area-tab-delete {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--grid-bad);
+}
+
+.area-tab-add {
+  padding: 8px 16px;
+  background: var(--bg-card);
+  border: 1px dashed var(--border);
+  border-radius: 8px 8px 0 0;
+  color: var(--accent-gold);
+  font-size: 1.1rem;
+  font-weight: 600;
+  transition: all 0.15s ease;
+}
+
+.area-tab-add:hover {
+  background: var(--bg-input);
+  border-color: var(--accent-gold);
+}
