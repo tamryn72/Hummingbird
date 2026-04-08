@@ -252,8 +252,9 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <h1 className="app-title">
-          <span className="app-icon">🌱</span> Garden Companion Planner
+          <span className="app-icon">🪻</span> Hummingbird
         </h1>
+        <p className="app-subtitle">Garden Companion Planner 🐦</p>
       </header>
 
       <AreaTabs
