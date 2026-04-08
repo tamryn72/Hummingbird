@@ -20,6 +20,14 @@
   font-size: 1.4rem;
 }
 
+.app-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
 .app-main {
   flex: 1;
   max-width: 900px;
