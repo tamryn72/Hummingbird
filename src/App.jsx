@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import plantsData from './data/plants.js'
 import AreaTabs from './components/AreaTabs.jsx'
 import Toolbar from './components/Toolbar.jsx'
@@ -7,6 +7,8 @@ import PlantPalette from './components/PlantPalette.jsx'
 import PlantCountSummary from './components/PlantCountSummary.jsx'
 import Legend from './components/Legend.jsx'
 import './App.css'
+
+const STORAGE_KEY = 'hummingbird-garden-state-v1'
 
 function createEmptyGrid(rows, cols) {
   return Array.from({ length: rows }, () =>
@@ -24,10 +26,51 @@ function createArea(name) {
   }
 }
 
+function loadSavedState() {
+  if (typeof window === 'undefined' || !window.localStorage) return null
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY)
+    if (!raw) return null
+    const parsed = JSON.parse(raw)
+    if (
+      !parsed ||
+      !Array.isArray(parsed.areas) ||
+      parsed.areas.length === 0 ||
+      !Array.isArray(parsed.plants)
+    ) {
+      return null
+    }
+    return parsed
+  } catch (err) {
+    console.warn('Failed to load saved garden state:', err)
+    return null
+  }
+}
+
 export default function App() {
-  const [plants, setPlants] = useState(plantsData)
-  const [areas, setAreas] = useState([createArea('Garden 1')])
-  const [activeAreaIndex, setActiveAreaIndex] = useState(0)
+  const saved = useMemo(() => loadSavedState(), [])
+
+  const [plants, setPlants] = useState(() => saved?.plants ?? plantsData)
+  const [areas, setAreas] = useState(() => saved?.areas ?? [createArea('Garden 1')])
+  const [activeAreaIndex, setActiveAreaIndex] = useState(() => {
+    const idx = saved?.activeAreaIndex ?? 0
+    const max = (saved?.areas?.length ?? 1) - 1
+    return Math.max(0, Math.min(idx, max))
+  })
+
+  // Persist garden state to localStorage whenever it changes
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.localStorage) return
+    try {
+      window.localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ plants, areas, activeAreaIndex })
+      )
+    } catch (err) {
+      console.warn('Failed to save garden state:', err)
+    }
+  }, [plants, areas, activeAreaIndex])
+
   const [mode, setMode] = useState('plant') // plant | shape | erase
   const [selectedPlantId, setSelectedPlantId] = useState(null)
   const [tooltip, setTooltip] = useState(null) // { row, col, x, y }
